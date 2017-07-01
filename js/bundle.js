@@ -17677,28 +17677,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var statelessFunctionalRecipe = function statelessFunctionalRecipe(props) {
-  var source = null;
-  if (props.image) {
-    source = props.image;
-  }
-  var ingredients = undefined.props.ingredients.map(function (item) {
+//This requires a recipe props of food, ingredietns, and an optional image
+var StatelessFunctionalRecipe = function StatelessFunctionalRecipe(props) {
+  var ingredients = props.ingredients.map(function (item) {
     return _react2.default.createElement(
       _reactBootstrap.ListGroupItem,
-      null,
-      undefined.props.ingredients[item]
+      { key: item },
+      item
     );
   });
-
+  var style = {
+    "width": "100%",
+    "height": "100%",
+    "borderColor": "rgb(42, 42, 42)",
+    "borderWidth": "5px",
+    "borderRadius": "10px",
+    "marginBottom": "2%"
+  };
   return _react2.default.createElement(
     'div',
     null,
     _react2.default.createElement(
       'h1',
       { className: 'text-center' },
-      undefined.props.food
+      props.food
     ),
-    _react2.default.createElement('img', { src: source }),
+    props.image && _react2.default.createElement('img', { src: props.image, style: style }),
     _react2.default.createElement(
       _reactBootstrap.ListGroup,
       null,
@@ -17707,28 +17711,85 @@ var statelessFunctionalRecipe = function statelessFunctionalRecipe(props) {
   );
 };
 
-var RecipeBox = function (_React$Component) {
-  _inherits(RecipeBox, _React$Component);
+var CollapseableRecipe = function (_React$Component) {
+  _inherits(CollapseableRecipe, _React$Component);
 
-  function RecipeBox(props) {
-    _classCallCheck(this, RecipeBox);
+  function CollapseableRecipe(props) {
+    _classCallCheck(this, CollapseableRecipe);
 
-    return _possibleConstructorReturn(this, (RecipeBox.__proto__ || Object.getPrototypeOf(RecipeBox)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (CollapseableRecipe.__proto__ || Object.getPrototypeOf(CollapseableRecipe)).call(this, props));
+
+    _this.state = {
+      open: false
+    };
+    return _this;
   }
 
-  _createClass(RecipeBox, [{
+  _createClass(CollapseableRecipe, [{
     key: 'render',
     value: function render() {
-      var ingredients = ["Flakes", "Milk", "Butter"];
-      var image = "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg";
-      return _react2.default.createElement('statelessFunctionalRecipe', { image: image, food: 'Baklava', ingredients: ingredients });
+      var _this2 = this;
+
+      var title = _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'a',
+          { className: 'panelHead', onClick: function onClick() {
+              return _this2.setState({ open: !_this2.state.open });
+            } },
+          this.props.food
+        ),
+        _react2.default.createElement(
+          'a',
+          { className: 'plus' },
+          _react2.default.createElement('i', { className: 'fa fa-plus' })
+        )
+      );
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Panel,
+          { collapsible: true, expanded: this.state.open, header: title },
+          _react2.default.createElement(StatelessFunctionalRecipe, { food: this.props.food, ingredients: this.props.ingredients, image: this.props.image })
+        )
+      );
     }
   }]);
 
-  return RecipeBox;
+  return CollapseableRecipe;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(RecipeBox, null), document.getElementById('render-target'));
+var FullBox = function (_React$Component2) {
+  _inherits(FullBox, _React$Component2);
+
+  function FullBox(props) {
+    _classCallCheck(this, FullBox);
+
+    return _possibleConstructorReturn(this, (FullBox.__proto__ || Object.getPrototypeOf(FullBox)).call(this, props));
+  }
+
+  _createClass(FullBox, [{
+    key: 'render',
+    value: function render() {
+      var ingredients = ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love"];
+      var image = "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg";
+      var food = "Baklava";
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(CollapseableRecipe, { ingredients: ingredients, image: image, food: food })
+      );
+    }
+  }]);
+
+  return FullBox;
+}(_react2.default.Component);
+
+;
+
+_reactDom2.default.render(_react2.default.createElement(FullBox, null), document.getElementById('render-target'));
 
 /***/ }),
 /* 203 */
