@@ -1,0 +1,19 @@
+.myHead {
+  font-family: "Lobster", cursive;
+  font-size: 5em;
+  color: White;
+  background-color: rgba(10, 130, 255, 0.85);
+  padding-top: 2%;
+  margin-top: 0;
+  text-align: center;
+  padding-bottom: 2%;
+}
+body {
+  background-color: rgb(42, 42, 42);
+
+}
+.myWell {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+}
