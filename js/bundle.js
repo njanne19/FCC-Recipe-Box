@@ -17744,6 +17744,11 @@ var CollapseableRecipe = function (_React$Component) {
           'a',
           { className: 'plus' },
           _react2.default.createElement('i', { className: 'fa fa-plus' })
+        ),
+        _react2.default.createElement(
+          'a',
+          { className: 'minus' },
+          _react2.default.createElement('i', { className: 'fa fa-times' })
         )
       );
       return _react2.default.createElement(
@@ -17773,7 +17778,7 @@ var FullBox = function (_React$Component2) {
   _createClass(FullBox, [{
     key: 'render',
     value: function render() {
-      var ingredients = ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love"];
+      var ingredients = ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"];
       var image = "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg";
       var food = "Baklava";
       return _react2.default.createElement(

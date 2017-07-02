@@ -44,6 +44,7 @@ class CollapseableRecipe extends React.Component {
       <div>
       <a className="panelHead"onClick={()=>this.setState({open: !this.state.open})}>{this.props.food}</a>
       <a className="plus"><i className = "fa fa-plus"></i></a>
+      <a className="minus"><i className ="fa fa-times"></i></a>
       </div>
     )
     return (
@@ -61,7 +62,7 @@ class FullBox extends React.Component {
     super(props);
   }
   render() {
-    let ingredients = ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love"];
+    let ingredients = ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"];
     let image = "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg";
     let food = "Baklava";
     return (
