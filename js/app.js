@@ -6,6 +6,7 @@ import { ListGroupItem } from 'react-bootstrap'
 import { Panel } from 'react-bootstrap'
 import { ButtonGroup } from 'react-bootstrap'
 import { Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 
 
 //This requires a recipe props of food, ingredietns, and an optional image, and prints specifically the recipe data
@@ -40,21 +41,15 @@ class CollapseableRecipe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
     };
-  }
-  handleShopping() {
-
-  }
-  handleDelete() {
-
   }
   render() {
     const title = (
       <div>
       <a className="panelHead"onClick={()=>this.setState({open: !this.state.open})}>{this.props.food}</a>
       <ButtonGroup className="add-delete">
-        <Button bsStyle="success" onClick={this.handleShopping()}>Add to shopping list</Button>
+        <Button bsStyle="success">Add to shopping list</Button>
         <Button bsStyle="danger">Delete Recipe</Button>
       </ButtonGroup>
       </div>
@@ -70,26 +65,6 @@ class CollapseableRecipe extends React.Component {
 }
 
 
-class AddToShopping extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state= {
-      "Baklava" : ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"]
-    };
-  }
-  render() {
-    for (var key in this.state) {
-      if (this.state.hasOwnProperty(key)) {
-        console.log(key + " -> " + this.state[key]);
-      }
-    }
-    return (
-      <div>
-      <h1>Test</h1>
-      </div>
-    );
-  }
-}
 
 class FullBox extends React.Component {
   constructor(props) {
@@ -106,5 +81,4 @@ class FullBox extends React.Component {
     );
   }
 };
-ReactDOM.render(<AddToShopping />, document.getElementById('render-target2'));
 ReactDOM.render(<FullBox />, document.getElementById('render-target'));
