@@ -17677,7 +17677,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//This requires a recipe props of food, ingredietns, and an optional image
+//This requires a recipe props of food, ingredietns, and an optional image, and prints specifically the recipe data
 var StatelessFunctionalRecipe = function StatelessFunctionalRecipe(props) {
   var ingredients = props.ingredients.map(function (item) {
     return _react2.default.createElement(
@@ -17711,6 +17711,8 @@ var StatelessFunctionalRecipe = function StatelessFunctionalRecipe(props) {
   );
 };
 
+//The component deals with the drop down part of every recipe along with the buttons
+
 var CollapseableRecipe = function (_React$Component) {
   _inherits(CollapseableRecipe, _React$Component);
 
@@ -17726,6 +17728,12 @@ var CollapseableRecipe = function (_React$Component) {
   }
 
   _createClass(CollapseableRecipe, [{
+    key: 'handleShopping',
+    value: function handleShopping() {}
+  }, {
+    key: 'handleDelete',
+    value: function handleDelete() {}
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -17741,14 +17749,18 @@ var CollapseableRecipe = function (_React$Component) {
           this.props.food
         ),
         _react2.default.createElement(
-          'a',
-          { className: 'plus' },
-          _react2.default.createElement('i', { className: 'fa fa-plus' })
-        ),
-        _react2.default.createElement(
-          'a',
-          { className: 'minus' },
-          _react2.default.createElement('i', { className: 'fa fa-times' })
+          _reactBootstrap.ButtonGroup,
+          { className: 'add-delete' },
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'success', onClick: this.handleShopping() },
+            'Add to shopping list'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'danger' },
+            'Delete Recipe'
+          )
         )
       );
       return _react2.default.createElement(
@@ -17766,8 +17778,45 @@ var CollapseableRecipe = function (_React$Component) {
   return CollapseableRecipe;
 }(_react2.default.Component);
 
-var FullBox = function (_React$Component2) {
-  _inherits(FullBox, _React$Component2);
+var AddToShopping = function (_React$Component2) {
+  _inherits(AddToShopping, _React$Component2);
+
+  function AddToShopping(props) {
+    _classCallCheck(this, AddToShopping);
+
+    var _this3 = _possibleConstructorReturn(this, (AddToShopping.__proto__ || Object.getPrototypeOf(AddToShopping)).call(this, props));
+
+    _this3.state = {
+      "Baklava": ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"]
+    };
+    return _this3;
+  }
+
+  _createClass(AddToShopping, [{
+    key: 'render',
+    value: function render() {
+      for (var key in this.state) {
+        if (this.state.hasOwnProperty(key)) {
+          console.log(key + " -> " + this.state[key]);
+        }
+      }
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          'Test'
+        )
+      );
+    }
+  }]);
+
+  return AddToShopping;
+}(_react2.default.Component);
+
+var FullBox = function (_React$Component3) {
+  _inherits(FullBox, _React$Component3);
 
   function FullBox(props) {
     _classCallCheck(this, FullBox);
@@ -17793,7 +17842,7 @@ var FullBox = function (_React$Component2) {
 }(_react2.default.Component);
 
 ;
-
+_reactDom2.default.render(_react2.default.createElement(AddToShopping, null), document.getElementById('render-target2'));
 _reactDom2.default.render(_react2.default.createElement(FullBox, null), document.getElementById('render-target'));
 
 /***/ }),

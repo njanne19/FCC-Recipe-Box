@@ -4,9 +4,11 @@ import ReactBootstrap from 'react-bootstrap'
 import { ListGroup } from 'react-bootstrap'
 import { ListGroupItem } from 'react-bootstrap'
 import { Panel } from 'react-bootstrap'
+import { ButtonGroup } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 
-//This requires a recipe props of food, ingredietns, and an optional image
+//This requires a recipe props of food, ingredietns, and an optional image, and prints specifically the recipe data
 const StatelessFunctionalRecipe = (props) => {
   let ingredients = props.ingredients.map((item) => {
     return (<ListGroupItem key={item}>{item}</ListGroupItem>)
@@ -32,6 +34,8 @@ const StatelessFunctionalRecipe = (props) => {
   );
 };
 
+
+//The component deals with the drop down part of every recipe along with the buttons
 class CollapseableRecipe extends React.Component {
   constructor(props) {
     super(props);
@@ -39,12 +43,20 @@ class CollapseableRecipe extends React.Component {
       open: false
     };
   }
+  handleShopping() {
+
+  }
+  handleDelete() {
+
+  }
   render() {
     const title = (
       <div>
       <a className="panelHead"onClick={()=>this.setState({open: !this.state.open})}>{this.props.food}</a>
-      <a className="plus"><i className = "fa fa-plus"></i></a>
-      <a className="minus"><i className ="fa fa-times"></i></a>
+      <ButtonGroup className="add-delete">
+        <Button bsStyle="success" onClick={this.handleShopping()}>Add to shopping list</Button>
+        <Button bsStyle="danger">Delete Recipe</Button>
+      </ButtonGroup>
       </div>
     )
     return (
@@ -54,6 +66,28 @@ class CollapseableRecipe extends React.Component {
         </Panel>
       </div>
     )
+  }
+}
+
+
+class AddToShopping extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state= {
+      "Baklava" : ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"]
+    };
+  }
+  render() {
+    for (var key in this.state) {
+      if (this.state.hasOwnProperty(key)) {
+        console.log(key + " -> " + this.state[key]);
+      }
+    }
+    return (
+      <div>
+      <h1>Test</h1>
+      </div>
+    );
   }
 }
 
@@ -69,8 +103,8 @@ class FullBox extends React.Component {
       <div>
         <CollapseableRecipe ingredients = {ingredients} image = {image} food = {food} />
       </div>
-    )
+    );
   }
 };
-
+ReactDOM.render(<AddToShopping />, document.getElementById('render-target2'));
 ReactDOM.render(<FullBox />, document.getElementById('render-target'));
