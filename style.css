@@ -39,3 +39,37 @@ body {
 .add-delete {
   float: right;
 }
+.addThings {
+	background-color: #0082FF;
+	color: white;
+	border-radius: 50%;
+	position: fixed;
+	display: block;
+	height: 50px;
+	width: 50px;
+	border-width: 0;
+	border-color: #0082FF;
+	bottom: 2%;
+	right: 2%;
+	font-size: 2em;
+	padding: 0 1% 0 1%;
+	transition-duration: 1s;
+	transition-timing-function: ease-in-out;
+	text-align: center;
+	padding-top: auto;
+	padding-bottom: auto;
+}
+.addThings:focus {
+		outline: 0;
+}
+.fixed-action-btn {
+		position: fixed;
+		bottom: 1%;
+		right: 1%;
+}
+#title, #ingredients, #image {
+		width: 60%;
+		font-size: 2em;
+		height: 20%;
+		border-radius: 10px;
+}
