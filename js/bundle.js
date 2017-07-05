@@ -17815,9 +17815,9 @@ var AddToList = function (_React$Component2) {
         if ($('#image').val()) {
           recipe["image"] = $('#image').val();
         }
-        recipes.push(recipe);
+
+        this.props.update(recipe);
         this.close();
-        console.log(recipes[2]);
       }
       alert("Hold up! You gotta fill in the necessary boxes!");
     }
@@ -17907,19 +17907,42 @@ var FullBox = function (_React$Component3) {
   function FullBox(props) {
     _classCallCheck(this, FullBox);
 
-    return _possibleConstructorReturn(this, (FullBox.__proto__ || Object.getPrototypeOf(FullBox)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (FullBox.__proto__ || Object.getPrototypeOf(FullBox)).call(this, props));
+
+    _this5.state = {
+      recipes: [{
+        "name": "Baklava",
+        "ingredients": ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
+        "image": "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
+      }, {
+        "name": "Chips N' Dip",
+        "ingredients": ["Chips", "Dip"],
+        "image": "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
+      }]
+    };
+    _this5.updateStatefulRecipes = _this5.updateStatefulRecipes.bind(_this5);
+    return _this5;
   }
 
   _createClass(FullBox, [{
+    key: 'updateStatefulRecipes',
+    value: function updateStatefulRecipes(recipe) {
+      var newArr = this.state.recipes.concat(recipe);
+      this.setState({
+        recipes: newArr
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var localRecipes = recipes.map(function (item) {
+      var localRecipes = this.state.recipes.map(function (item) {
         return _react2.default.createElement(CollapseableRecipe, { key: item["name"], food: item["name"], ingredients: item["ingredients"], image: item["image"] });
       });
       return _react2.default.createElement(
         'div',
         null,
-        localRecipes
+        localRecipes,
+        _react2.default.createElement(AddToList, { update: this.updateStatefulRecipes, recipes: this.state.recipes })
       );
     }
   }]);
@@ -17929,7 +17952,6 @@ var FullBox = function (_React$Component3) {
 
 ;
 _reactDom2.default.render(_react2.default.createElement(FullBox, null), document.getElementById('render-target'));
-_reactDom2.default.render(_react2.default.createElement(AddToList, null), document.getElementById('render2'));
 
 /***/ }),
 /* 203 */
