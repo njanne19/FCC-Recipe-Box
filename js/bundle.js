@@ -17678,13 +17678,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var recipes = [{
-  "name": "Baklava",
-  "ingredients": ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
-  "image": "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
+  name: "Baklava",
+  ingredients: ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
+  image: "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
 }, {
-  "name": "Chips N' Dip",
-  "ingredients": ["Chips", "Dip"],
-  "image": "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
+  name: "Chips N' Dip",
+  ingredients: ["Chips", "Dip"],
+  image: "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
 }];
 
 //This requires a recipe props of food, ingredietns, and an optional image, and prints specifically the recipe data
@@ -17714,9 +17714,12 @@ var CollapseableRecipe = function (_React$Component) {
         null,
         _react2.default.createElement(
           'a',
-          { className: 'panelHead', onClick: function onClick() {
+          {
+            className: 'panelHead',
+            onClick: function onClick() {
               return _this2.setState({ open: !_this2.state.open });
-            } },
+            }
+          },
           this.props.food
         ),
         _react2.default.createElement(
@@ -17742,12 +17745,12 @@ var CollapseableRecipe = function (_React$Component) {
         );
       });
       var style = {
-        "width": "100%",
-        "height": "100%",
-        "borderColor": "rgb(42, 42, 42)",
-        "borderWidth": "5px",
-        "borderRadius": "10px",
-        "marginBottom": "2%"
+        width: "100%",
+        height: "100%",
+        borderColor: "rgb(42, 42, 42)",
+        borderWidth: "5px",
+        borderRadius: "10px",
+        marginBottom: "2%"
       };
       return _react2.default.createElement(
         'div',
@@ -17778,8 +17781,6 @@ var CollapseableRecipe = function (_React$Component) {
   return CollapseableRecipe;
 }(_react2.default.Component);
 
-;
-
 var AddToList = function (_React$Component2) {
   _inherits(AddToList, _React$Component2);
 
@@ -17791,6 +17792,9 @@ var AddToList = function (_React$Component2) {
     _this3.state = {
       showModal: false
     };
+    _this3.handleClick = _this3.handleClick.bind(_this3);
+    _this3.close = _this3.close.bind(_this3);
+    _this3.updateRecipes = _this3.updateRecipes.bind(_this3);
     return _this3;
   }
 
@@ -17807,35 +17811,41 @@ var AddToList = function (_React$Component2) {
   }, {
     key: 'updateRecipes',
     value: function updateRecipes() {
-      if ($('#title').val() && $('#ingredients').val()) {
+      if ($("#title").val() && $("#ingredients").val()) {
         var recipe = {
-          "name": $('#title').val(),
-          "ingredients": $('#ingredients').val()
+          name: $("#title").val(),
+          ingredients: $("#ingredients").val().split(',')
         };
-        if ($('#image').val()) {
-          recipe["image"] = $('#image').val();
+        if ($("#image").val()) {
+          recipe["image"] = $("#image").val();
         }
 
         this.props.update(recipe);
         this.close();
+      } else {
+        alert("Hold up! You gotta fill in the necessary boxes!");
       }
-      alert("Hold up! You gotta fill in the necessary boxes!");
     }
   }, {
     key: 'render',
     value: function render() {
       var _this4 = this;
 
-      $('body').click(function (event) {
-        if (!$(event.target).closest('#openModal').length && !$(event.target).is('#openModal')) {
+      $("body").click(function (event) {
+        if (!$(event.target).closest("#openModal").length && !$(event.target).is("#openModal")) {
           $(".modalDialog").hide();
         }
       });
       var myModal = _react2.default.createElement(
         _reactBootstrap.Modal,
-        { show: this.state.showModal, onHide: function onHide() {
+        {
+          show: this.state.showModal,
+          onHide: function onHide() {
             return _this4.close();
-          }, bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' },
+          },
+          bsSize: 'large',
+          'aria-labelledby': 'contained-modal-title-lg'
+        },
         _react2.default.createElement(
           _reactBootstrap.Modal.Header,
           { closeButton: true },
@@ -17856,19 +17866,34 @@ var AddToList = function (_React$Component2) {
               null,
               'Name of Dish'
             ),
-            _react2.default.createElement('input', { type: 'text', label: 'Recipe', placeholder: 'Recipe Name', id: 'title' }),
+            _react2.default.createElement('input', {
+              type: 'text',
+              label: 'Recipe',
+              placeholder: 'Recipe Name',
+              id: 'title'
+            }),
             _react2.default.createElement(
               'h3',
               null,
               'Ingredients'
             ),
-            _react2.default.createElement('input', { type: 'textarea', label: 'Ingredients', placeholder: 'Enter Ingredients(commas to separate)', id: 'ingredients' }),
+            _react2.default.createElement('input', {
+              type: 'textarea',
+              label: 'Ingredients',
+              placeholder: 'Enter Ingredients(commas to separate)',
+              id: 'ingredients'
+            }),
             _react2.default.createElement(
               'h3',
               null,
               'Image'
             ),
-            _react2.default.createElement('input', { type: 'textarea', label: 'Image', placeholder: 'Enter a URL to an image(optional)', id: 'image' })
+            _react2.default.createElement('input', {
+              type: 'textarea',
+              label: 'Image',
+              placeholder: 'Enter a URL to an image(optional)',
+              id: 'image'
+            })
           )
         ),
         _react2.default.createElement(
@@ -17876,9 +17901,13 @@ var AddToList = function (_React$Component2) {
           null,
           _react2.default.createElement(
             _reactBootstrap.Button,
-            { bsStyle: 'success', id: 'addRec', onClick: function onClick() {
+            {
+              bsStyle: 'success',
+              id: 'addRec',
+              onClick: function onClick() {
                 return _this4.updateRecipes();
-              } },
+              }
+            },
             'Add Recipe'
           )
         )
@@ -17911,13 +17940,13 @@ var FullBox = function (_React$Component3) {
 
     _this5.state = {
       recipes: [{
-        "name": "Baklava",
-        "ingredients": ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
-        "image": "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
+        name: "Baklava",
+        ingredients: ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
+        image: "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
       }, {
-        "name": "Chips N' Dip",
-        "ingredients": ["Chips", "Dip"],
-        "image": "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
+        name: "Chips N' Dip",
+        ingredients: ["Chips", "Dip"],
+        image: "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
       }]
     };
     _this5.updateStatefulRecipes = _this5.updateStatefulRecipes.bind(_this5);
@@ -17936,13 +17965,21 @@ var FullBox = function (_React$Component3) {
     key: 'render',
     value: function render() {
       var localRecipes = this.state.recipes.map(function (item) {
-        return _react2.default.createElement(CollapseableRecipe, { key: item["name"], food: item["name"], ingredients: item["ingredients"], image: item["image"] });
+        return _react2.default.createElement(CollapseableRecipe, {
+          key: item["name"],
+          food: item["name"],
+          ingredients: item["ingredients"],
+          image: item["image"]
+        });
       });
       return _react2.default.createElement(
         'div',
         null,
         localRecipes,
-        _react2.default.createElement(AddToList, { update: this.updateStatefulRecipes, recipes: this.state.recipes })
+        _react2.default.createElement(AddToList, {
+          update: this.updateStatefulRecipes,
+          recipes: this.state.recipes
+        })
       );
     }
   }]);
@@ -17950,8 +17987,7 @@ var FullBox = function (_React$Component3) {
   return FullBox;
 }(_react2.default.Component);
 
-;
-_reactDom2.default.render(_react2.default.createElement(FullBox, null), document.getElementById('render-target'));
+_reactDom2.default.render(_react2.default.createElement(FullBox, null), document.getElementById("render-target"));
 
 /***/ }),
 /* 203 */
