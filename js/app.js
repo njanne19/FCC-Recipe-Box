@@ -8,29 +8,40 @@ import { ButtonGroup } from 'react-bootstrap'
 import { Button } from 'react-bootstrap'
 import { Modal } from 'react-bootstrap'
 
- 
-const recipes = [
-  {
-    name: "Baklava",
-    ingredients: [
-      "Flower",
-      "Baking soda",
-      "Pistachios",
-      "Honey",
-      "Puff Pastry",
-      "Love",
-      "Wawa"
-    ],
-    image:
-      "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
-  },
-  {
-    name: "Chips N' Dip",
-    ingredients: ["Chips", "Dip"],
-    image:
-      "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
-  }
-];
+
+
+var defaultRecipes = [
+        {
+          name: "Baklava",
+          ingredients: [
+            "Flower",
+            "Baking soda",
+            "Pistachios",
+            "Honey",
+            "Puff Pastry",
+            "Love",
+            "Wawa"
+          ],
+          image:
+            "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
+        },
+        {
+          name: "Chips N' Dip",
+          ingredients: ["Chips", "Dip"],
+          image:
+            "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
+        }
+      ];
+
+function updateStorage () {
+  var importedRecipes = [];
+    if(typeof localStorage["recipes"] == "undefined" || localStorage["recipes"] == "undefined") {
+     localStorage.recipes = JSON.stringify(defaultRecipes);
+    }
+}
+
+updateStorage();
+
 
 //This requires a recipe props of food, ingredietns, and an optional image, and prints specifically the recipe data
 //The component deals with the drop down part of every recipe along with the buttons
@@ -38,8 +49,17 @@ class CollapseableRecipe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      showModal: false
     };
+  }
+  close() {
+    this.setState({ showModal: false });
+  }
+  deleteRecipe () {
+    this.setState({
+      showModal: true
+    });
   }
   render() {
     const title = (
@@ -51,9 +71,28 @@ class CollapseableRecipe extends React.Component {
           {this.props.food}
         </a>
         <ButtonGroup className="add-delete">
-          <Button bsStyle="success">Add to shopping list</Button>
-          <Button bsStyle="danger">Delete Recipe</Button>
+          <Button onClick={()=> this.deleteRecipe()}bsStyle="danger">Delete Recipe</Button>
         </ButtonGroup>
+      <Modal
+        show={this.state.showModal}
+        onHide={() => this.close()}
+        bsSize="large"
+        aria-labelledby="contained-modal-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">
+            Deletion confirmation
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h2>Are you sure you want to  delete the recipe for {this.props.food}?</h2>
+          <Button bsStyle="danger" onClick={()=>{ this.props.delete(this.props.food); this.close();}}>Yes, I'm sure. Delete</Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button bsStyle="secondary" id="addRec" onClick={() => this.close()}>
+            No, this was an accident
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </div>
     );
     let ingredients = this.props.ingredients.map(item => {
@@ -187,33 +226,29 @@ class FullBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipes: [
-        {
-          name: "Baklava",
-          ingredients: [
-            "Flower",
-            "Baking soda",
-            "Pistachios",
-            "Honey",
-            "Puff Pastry",
-            "Love",
-            "Wawa"
-          ],
-          image:
-            "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
-        },
-        {
-          name: "Chips N' Dip",
-          ingredients: ["Chips", "Dip"],
-          image:
-            "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
-        }
-      ]
+      recipes: JSON.parse(localStorage.recipes)
     };
     this.updateStatefulRecipes = this.updateStatefulRecipes.bind(this);
+    this.deleteStatefulRecipes = this.deleteStatefulRecipes.bind(this);
+  }
+  deleteStatefulRecipes(food) {
+    var index;
+    for (var i = 0; i<this.state.recipes.length; i++) {
+      if (this.state.recipes[i].name == food) {
+        index = i;
+        var newArr = this.state.recipes;
+        newArr.splice(index, 1);
+        localStorage.recipes = JSON.stringify(newArr);
+        this.setState({
+        recipes: newArr
+        });
+        break;
+      }
+    }
   }
   updateStatefulRecipes(recipe) {
     var newArr = this.state.recipes.concat(recipe);
+    localStorage.recipes = JSON.stringify(newArr);
     this.setState({
       recipes: newArr
     });
@@ -226,6 +261,7 @@ class FullBox extends React.Component {
           food={item["name"]}
           ingredients={item["ingredients"]}
           image={item["image"]}
+          delete={this.deleteStatefulRecipes}
         />
       );
     });
@@ -236,9 +272,11 @@ class FullBox extends React.Component {
           update={this.updateStatefulRecipes}
           recipes={this.state.recipes}
         />
+
       </div>
     );
   }
 }
+
 
 ReactDOM.render(<FullBox />, document.getElementById("render-target"));

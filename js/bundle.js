@@ -17677,7 +17677,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var recipes = [{
+var defaultRecipes = [{
   name: "Baklava",
   ingredients: ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
   image: "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
@@ -17686,6 +17686,15 @@ var recipes = [{
   ingredients: ["Chips", "Dip"],
   image: "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
 }];
+
+function updateStorage() {
+  var importedRecipes = [];
+  if (typeof localStorage["recipes"] == "undefined" || localStorage["recipes"] == "undefined") {
+    localStorage.recipes = JSON.stringify(defaultRecipes);
+  }
+}
+
+updateStorage();
 
 //This requires a recipe props of food, ingredietns, and an optional image, and prints specifically the recipe data
 //The component deals with the drop down part of every recipe along with the buttons
@@ -17699,12 +17708,25 @@ var CollapseableRecipe = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (CollapseableRecipe.__proto__ || Object.getPrototypeOf(CollapseableRecipe)).call(this, props));
 
     _this.state = {
-      open: false
+      open: false,
+      showModal: false
     };
     return _this;
   }
 
   _createClass(CollapseableRecipe, [{
+    key: 'close',
+    value: function close() {
+      this.setState({ showModal: false });
+    }
+  }, {
+    key: 'deleteRecipe',
+    value: function deleteRecipe() {
+      this.setState({
+        showModal: true
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -17727,13 +17749,58 @@ var CollapseableRecipe = function (_React$Component) {
           { className: 'add-delete' },
           _react2.default.createElement(
             _reactBootstrap.Button,
-            { bsStyle: 'success' },
-            'Add to shopping list'
+            { onClick: function onClick() {
+                return _this2.deleteRecipe();
+              }, bsStyle: 'danger' },
+            'Delete Recipe'
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Modal,
+          {
+            show: this.state.showModal,
+            onHide: function onHide() {
+              return _this2.close();
+            },
+            bsSize: 'large',
+            'aria-labelledby': 'contained-modal-title-lg' },
+          _react2.default.createElement(
+            _reactBootstrap.Modal.Header,
+            { closeButton: true },
+            _react2.default.createElement(
+              _reactBootstrap.Modal.Title,
+              { id: 'contained-modal-title-lg' },
+              'Deletion confirmation'
+            )
           ),
           _react2.default.createElement(
-            _reactBootstrap.Button,
-            { bsStyle: 'danger' },
-            'Delete Recipe'
+            _reactBootstrap.Modal.Body,
+            null,
+            _react2.default.createElement(
+              'h2',
+              null,
+              'Are you sure you want to  delete the recipe for ',
+              this.props.food,
+              '?'
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { bsStyle: 'danger', onClick: function onClick() {
+                  _this2.props.delete(_this2.props.food);_this2.close();
+                } },
+              'Yes, I\'m sure. Delete'
+            )
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Modal.Footer,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { bsStyle: 'secondary', id: 'addRec', onClick: function onClick() {
+                  return _this2.close();
+                } },
+              'No, this was an accident'
+            )
           )
         )
       );
@@ -17939,24 +18006,35 @@ var FullBox = function (_React$Component3) {
     var _this5 = _possibleConstructorReturn(this, (FullBox.__proto__ || Object.getPrototypeOf(FullBox)).call(this, props));
 
     _this5.state = {
-      recipes: [{
-        name: "Baklava",
-        ingredients: ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
-        image: "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
-      }, {
-        name: "Chips N' Dip",
-        ingredients: ["Chips", "Dip"],
-        image: "http://dinnerthendessert.com/wp-content/uploads/2015/09/Chips-and-Guac-Small-680x453.jpg"
-      }]
+      recipes: JSON.parse(localStorage.recipes)
     };
     _this5.updateStatefulRecipes = _this5.updateStatefulRecipes.bind(_this5);
+    _this5.deleteStatefulRecipes = _this5.deleteStatefulRecipes.bind(_this5);
     return _this5;
   }
 
   _createClass(FullBox, [{
+    key: 'deleteStatefulRecipes',
+    value: function deleteStatefulRecipes(food) {
+      var index;
+      for (var i = 0; i < this.state.recipes.length; i++) {
+        if (this.state.recipes[i].name == food) {
+          index = i;
+          var newArr = this.state.recipes;
+          newArr.splice(index, 1);
+          localStorage.recipes = JSON.stringify(newArr);
+          this.setState({
+            recipes: newArr
+          });
+          break;
+        }
+      }
+    }
+  }, {
     key: 'updateStatefulRecipes',
     value: function updateStatefulRecipes(recipe) {
       var newArr = this.state.recipes.concat(recipe);
+      localStorage.recipes = JSON.stringify(newArr);
       this.setState({
         recipes: newArr
       });
@@ -17964,12 +18042,15 @@ var FullBox = function (_React$Component3) {
   }, {
     key: 'render',
     value: function render() {
+      var _this6 = this;
+
       var localRecipes = this.state.recipes.map(function (item) {
         return _react2.default.createElement(CollapseableRecipe, {
           key: item["name"],
           food: item["name"],
           ingredients: item["ingredients"],
-          image: item["image"]
+          image: item["image"],
+          'delete': _this6.deleteStatefulRecipes
         });
       });
       return _react2.default.createElement(
