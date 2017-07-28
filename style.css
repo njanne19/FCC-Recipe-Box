@@ -22,15 +22,7 @@ body {
     }
 }
 
-.myWell {
-  float: right;
-}
-.myWell2 {
-  float:left
-}
-.myWell2 > h2 {
-  font-family: "Lobster", fantasy;
-}
+
 .panelHead {
   font-family: "Lobster", fantasy;
   font-size: 2em;

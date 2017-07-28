@@ -10,6 +10,7 @@ import { Modal } from 'react-bootstrap'
 
 
 
+
 var defaultRecipes = [
         {
           name: "Baklava",
@@ -20,7 +21,6 @@ var defaultRecipes = [
             "Honey",
             "Puff Pastry",
             "Love",
-            "Wawa"
           ],
           image:
             "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
@@ -88,7 +88,11 @@ class CollapseableRecipe extends React.Component {
           <Button bsStyle="danger" onClick={()=>{ this.props.delete(this.props.food); this.close();}}>Yes, I'm sure. Delete</Button>
         </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle="secondary" id="addRec" onClick={() => this.close()}>
+          <Button
+            bsStyle="secondary"
+            id="addRec"
+            onClick={() => this.close()}
+          >
             No, this was an accident
           </Button>
         </Modal.Footer>

@@ -17679,7 +17679,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var defaultRecipes = [{
   name: "Baklava",
-  ingredients: ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love", "Wawa"],
+  ingredients: ["Flower", "Baking soda", "Pistachios", "Honey", "Puff Pastry", "Love"],
   image: "http://assets.simplyrecipes.com/wp-content/uploads/2008/02/baklava-horiz-a-640.jpg"
 }, {
   name: "Chips N' Dip",
@@ -17796,9 +17796,13 @@ var CollapseableRecipe = function (_React$Component) {
             null,
             _react2.default.createElement(
               _reactBootstrap.Button,
-              { bsStyle: 'secondary', id: 'addRec', onClick: function onClick() {
+              {
+                bsStyle: 'secondary',
+                id: 'addRec',
+                onClick: function onClick() {
                   return _this2.close();
-                } },
+                }
+              },
               'No, this was an accident'
             )
           )
